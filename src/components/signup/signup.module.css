@@ -1,0 +1,90 @@
+.signupContainer {
+  display: flex;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: rgba(252, 243, 243, 0.868);
+}
+
+.imageContainer {
+  width: 65%;
+}
+
+.signup {
+  width: 45%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+label {
+  font-size: 1rem;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background: #f0f0ff;
+}
+
+button {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: #fff;
+  background: #db8cac;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.text {
+  color: #555;
+}
+
+.text a {
+  color: blue;
+  font-weight: 600;
+}
+
+.text a:hover {
+  text-decoration: underline;
+}
+
+.errorMsg {
+  max-width: 100%;
+  font-size: 0.75rem;
+  color: rgb(248, 106, 106);
+  margin-bottom: 15px;
+}

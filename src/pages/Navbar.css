@@ -1,0 +1,35 @@
+header {
+  /* position: fixed;
+  top: 0;
+  left: 0; */
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 9%;
+  margin-bottom: 10px;
+  background: #be6f8d;
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.6;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-block;
+  margin-left: 20px;
+  font-size: 18px;
+  color: #a85677;
+  font-weight: 500;
+  color: #fff;
+}
