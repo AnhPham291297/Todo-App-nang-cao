@@ -8,27 +8,28 @@ export default function Home() {
 
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState(storageJson);
-  const [index, setIndex] = useState(null);
+  const [isEdit, setIsEdit] = useState(null);
+  const [selected, setSelected] = useState([]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input === "") {
       alert("Cannot be left blank");
     } else {
-      if (index != null) {
+      if (isEdit != null) {
         let items = [...todos];
-        const findItem = items.find((item) => item.id === index);
+        const findItem = items.find((item) => item.id === isEdit);
         findItem.title = input;
-        findItem.completed = false;
+        // findItem.completed = false;
         setTodos(items);
-        setIndex(null);
+        setIsEdit(null);
         setInput("");
       } else {
         let newTodo = {
           id: new Date().getTime(),
           title: input,
           completed: false,
-          check: false,
         };
         setTodos([...todos, newTodo]);
         setInput("");
@@ -53,26 +54,16 @@ export default function Home() {
   };
 
   const handleEdit = (id, title) => {
-    // todos.map((todo) => {
-    //   if (todo.id === id) {
-    //     setInput(todo.title);
-    //   }
-    // });
-    setIndex(id);
+    setIsEdit(id);
     setInput(title);
   };
 
-  const [check, setCheck] = useState(false);
-
-  const handleCheck = (todo) => {
-    const newTodo = todos.map((item) => {
-      if (item.id === todo.id) {
-        item.check = !item.check;
-      }
-      return item;
-    });
-
-    setTodos(newTodo);
+  const handleSelect = (todo, target) => {
+    if (target.checked === true) {
+      setSelected(prev=> prev.concat(todo.id))
+    } else if (target.checked === false) {
+      setSelected(prev=>prev.filter(x=>x!== todo.id))
+    }
   };
 
   useEffect(() => {
@@ -80,25 +71,14 @@ export default function Home() {
   }, [todos]);
   ///////////////////////////////////////////////////////////////////////
 
-  const [count, setCount] = useState(0);
-
-  const renderCheckCount = () => {
-    // let count = 0;
-    // todos.forEach((element) => {
-    //   if (element.check) {
-    //     count++;
-    //   }
-    // });
-    if (count === 0) return "";
-    return `Delete ${count} elements`;
-  };
 
   const handleDeleteTask = () => {
     alert("Ban chac chan muon xoa chua?");
     const newList = todos.filter((todo) => {
-      return todo.check !== true;
+      return !selected.includes(todo.id);
     });
     setTodos(newList);
+    setSelected([])
   };
 
   return (
@@ -108,11 +88,11 @@ export default function Home() {
       <div className="todo-container">
         <h3 className="todo-title">Todo App</h3>
 
-        <p className="delete-task" onClick={() => handleDeleteTask()}>
-          {renderCheckCount()}
-        </p>
+        {selected.length > 0 && <button className="delete-task" onClick={() => handleDeleteTask()}>
+          {`Delete ${selected.length} elements`}
+        </button>}
 
-        <p>{todos.length === 0 ? "" : `You have an ${todos.length} tasks`}</p>
+        {!!todos.length && <p>{`You have ${todos.length} tasks`}</p>}
 
         <form className="input-form" onSubmit={handleSubmit}>
           <input
@@ -127,21 +107,32 @@ export default function Home() {
           </button>
         </form>
 
-        <div className="todo-list">
-          {todos.map((todo) => (
-            <div key={todo.id} className="todo-item">
-              <input
+        <div className={todos.length ? "todo-list" : ''}>
+          {!!todos.length && <div className="check-all-container">
+            <input
+                className="checkbox"
                 onChange={(e) => {
-                  handleCheck(todo);
-                  if (e.target.checked === true) {
-                    setCount(count + 1);
-                  } else if (count > 0 && e.target.checked === false) {
-                    setCount(count - 1);
+                  if (e.target.checked) {
+                    setSelected(todos.map(x=>x.id))
+                  } else {
+                    setSelected([])
                   }
                 }}
                 type="checkbox"
+            />
+            <span>Check all</span>
+          </div>}
+          {todos.map((todo) => (
+            <div key={todo.id} className="todo-item">
+              <input
+                checked={selected.includes(todo.id)}
+                className="checkbox"
+                onChange={(e) => {
+                  handleSelect(todo, e.target);
+                }}
+                type="checkbox"
                 name=""
-                id=""
+                id={`checkbox-${todo.id}`}
               />
               <div
                 className={`todo-value ${todo.completed ? "completed" : ""}`}
@@ -168,8 +159,6 @@ export default function Home() {
               </div>
             </div>
           ))}
-
-          {check && <button>djfksdlf</button>}
         </div>
       </div>
     </div>
